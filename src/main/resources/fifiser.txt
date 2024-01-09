@@ -1,0 +1,14 @@
+- selectezi medicul
+- selectezi data la care doresti programare
+ NEXT
+
+1. interval orar
+2. retin appointment, in functie de app din bd as vedea daca intervalul e disponibil
+3. iei tot din app pt data respectiva & medic
+    cand listezi, listezi tot ce ai luat din select si datile care nu au nimic
+    intervalul orar
+    descriem ziua intr un tabel?
+
+- pe baza progr doctorului generam date disponib
+- stergem busySlots (Cele din bd care sunt ocupate)
+- afisam trimitem ce a ramas
