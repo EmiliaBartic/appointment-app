@@ -23,37 +23,25 @@ public class AppController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/user")
     public String mainPage() {
-        return "main";
+        return "user/main";
     }
 
-    @GetMapping("/appointment/add")
+    @GetMapping("/user/appointment/add")
     public String addAppointmentPage(Model model) {
         model = appointmentService.prepareModelForForm(model);
-        return "add-appointment";
+        return "user/add-appointment";
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping("/appointments/all")
-    public String showAllAppointments(Model model) {
-        List<Appointment> appointments = appointmentService.findAllAppointments();
-        model.addAttribute("appointments", appointments);
-        return "appointments";
-    }
-
-    @PostMapping("/appointments/add")
+    @PostMapping("/user/appointments/add")
     public String getAvailableHours(@ModelAttribute("appointment") AppointmentDto appointmentDto, Model model) throws ParseException {
         List<LocalDateTime> hours = appointmentService.getAvailableData(appointmentDto);
         model = appointmentService.prepareModelForSecondForm(model, appointmentDto, hours);
-        return "appointment-secondpage";
+        return "user/appointment-secondpage";
     }
 
-    @PostMapping("/appointments/final/add")
+    @PostMapping("/user/appointments/final/add")
     public String appointmentAdded(@ModelAttribute("appointment") AppointmentWithHoursDto appointment, Model model) throws ParseException {
         //System.out.println("ce am primit: ");
         //System.out.println(appointment);
@@ -61,7 +49,7 @@ public class AppController {
         model.addAttribute("name", appointment.getName());
         model.addAttribute("date", appointment.getStartDate());
         model.addAttribute("doctor", appointment.getDoctorName());
-        return "appointment-final";
+        return "user/appointment-final";
     }
 
 }

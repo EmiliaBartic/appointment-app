@@ -21,11 +21,6 @@ public class AppointmentService {
     private final DoctorService doctorService;
     private final SlotsService slotsService;
 
-
-    public void addAppointmentToDb(Appointment appointment) {
-        appointmentRepository.save(appointment);
-    }
-
     public List<Appointment> findAllAppointments() {
         return appointmentRepository.findAll();
     }
@@ -41,13 +36,12 @@ public class AppointmentService {
     //doctor.schedule: {"monday" : {"start": 9, "end": 13}, "tuesday" : {"start": 9, "end": 13}, "wednesday" : {"start": 9, "end": 13}, "thursday": {"start": 9, "end": 13}, "friday": {"start": 9, "end": 13}, "saturday": {"start": 9, "end": 12}, "sunday": {"start": 0, "end": 0}}
 
         Doctor doctor =  doctorService.findById(appointmentDto.getDoctorId());
-        Map<String, Map<String, String>> schedule = doctor.getScheduleMap();
+        Map<String, Map<String, Integer>> schedule = doctor.getScheduleMap();
         List<LocalDateTime> busySlots = slotsService.getBusySlots(appointmentDto.getDoctorId());
         List<LocalDateTime> freeSlots = slotsService.computeFreeSlots(busySlots, appointmentDto, schedule);
 
         return freeSlots;
     }
-
 
     public Model prepareModelForSecondForm(Model model, AppointmentDto appointmentDto, List<LocalDateTime> hours) {
         Doctor doctor = doctorService.findById(appointmentDto.getDoctorId());
@@ -80,5 +74,19 @@ public class AppointmentService {
                 .build();
         appointment.setDoctor(doctorById); // set the doctor for the appointment
         appointmentRepository.save(appointment);
+    }
+
+    public void deleteAppointmentById(Long id) {
+        appointmentRepository.deleteById(id);
+    }
+
+    public void acceptAppointmentById(Long id) {
+        Appointment appointment = appointmentRepository.findById(id).orElse(null);
+        if (appointment != null) {
+            appointment.setStatus("accepted");
+            appointmentRepository.save(appointment);
+        } else {
+            System.out.println("appointment not found");
+        }
     }
 }

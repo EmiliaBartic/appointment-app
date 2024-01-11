@@ -34,10 +34,10 @@ public class Doctor {
     private List<Appointment> appointments; //busySlots
 
     @Transient
-    public Map<String, Map<String, String>> getScheduleMap() {
+    public Map<String, Map<String, Integer>> getScheduleMap() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(schedule, new TypeReference<Map<String, Map<String, String>>>() {});
+            return objectMapper.readValue(schedule, new TypeReference<Map<String, Map<String, Integer>>>() {});
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -45,7 +45,7 @@ public class Doctor {
     }
 
     @Transient
-    public void setScheduleMap(Map<String, Map<String, String>> scheduleMap) {
+    public void setScheduleMap(Map<String, Map<String, Integer>> scheduleMap) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             this.schedule = objectMapper.writeValueAsString(scheduleMap);

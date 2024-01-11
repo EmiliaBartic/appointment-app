@@ -1,13 +1,12 @@
 package com.project.controllers;
 
+import com.project.dtos.DoctorDto;
 import com.project.models.Doctor;
 import com.project.services.DoctorService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,29 +20,40 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @GetMapping("/doctors/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/doctor/add")
     public String showAddDoctorForm(Model model) {
-        model.addAttribute("doctor", new Doctor());
-        return "add-doctor";
+        model.addAttribute("doctor", new DoctorDto());
+        return "admin/add-doctor";
     }
 
-    @GetMapping("/doctors/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/doctors/all")
     public String findAllDoctors(Model model) {
         List<Doctor> doctors = doctorService.findAllDoctorsModifiedSchedule();
         model.addAttribute("doctors", doctors);
-        return "doctors";
+        return "admin/doctors";
     }
 
-    @PostMapping("/doctors/add")
-    public String addDoctor(@ModelAttribute Doctor doctor) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/admin/doctors/add")
+    public String addDoctor(@ModelAttribute DoctorDto doctor, Model model) {
+        //System.out.println("Doctor to be added");
+        //System.out.println(doctor);
         doctorService.addDoctorToDb(doctor);
-        return "doctors";
+        List<Doctor> doctors = doctorService.findAllDoctorsModifiedSchedule();
+        model.addAttribute("doctors", doctors);
+        return "admin/doctors";
     }
 
-    @DeleteMapping("/doctor/id")
-    public String deleteDoctorById(Long id) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/admin/doctor/{id}")
+    public String deleteDoctorById(@PathVariable Long id, Model model) {
+        System.out.println("delete doctor with id "+ id);
         doctorService.deleteDoctorById(id);
-        return "doctors";
+        List<Doctor> doctors = doctorService.findAllDoctorsModifiedSchedule();
+        model.addAttribute("doctors", doctors);
+        return "admin/doctors";
     }
 
 
