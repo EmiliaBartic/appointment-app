@@ -1,0 +1,5 @@
+This application facilitates the scheduling of doctor appointments within a clinic. Leveraging a predefined schedule, the system intelligently generates available time slots by considering existing appointments.
+The application supports two distinct roles: User and Admin. 
+Users can seamlessly schedule appointments, while Admins enjoy a comprehensive set of functionalities. 
+Admins can view, create, accept, or delete appointments. Additionally, they have control over the clinic's roster of doctors, allowing them to add or remove practitioners as needed.This application facilitates the scheduling of doctor appointments within a clinic. Leveraging a predefined schedule, the system intelligently generates available time slots by considering existing appointments. The application supports two distinct roles: User and Admin. Users can seamlessly schedule appointments, while Admins enjoy a comprehensive set of functionalities. Admins can view, create, accept, or delete appointments. Additionally, they have control over the clinic's roster of doctors, allowing them to add or remove practitioners as needed.
+Skills: Spring MVC · Thymeleaf · Bootstrap (Framework)
